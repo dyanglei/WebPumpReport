@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pump Report</title>
+<!--link rel="stylesheet" href="css/pumpreport.css"/-->
+</head>
+<body>
+<div id="PumpReport">  	
+
+DateTime: <input id="dateTime" type="text" name="dateTime"><button onclick="updateTime()">update DateTime</button><br>
+Pump ID: <input id="pumpId" type="text" name="pumpId" value="13"><br>
+Battery Voltage: <input id="batteryVoltage" type="text" name="batteryVoltage" value="4.0"><br>
+Cycles: <input id="cycles" ype="text" name="cycles" value="12"><br>
+Temperature: <input id="temperature" type="text" name="temperature" value=33><br>
+<button onclick="AjaxPost()">Submit</button><br>
+<p>Response: <span id="response"></span></p>
+
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script>
+(function ($) {
+    $("#dateTime").val((new Date()).toJSON());
+	
+})(jQuery);
+
+function updateTime(){
+	$("#dateTime").val((new Date()).toJSON());
+	}
+
+function AjaxPost(){
+    var xmlhttp;
+	
+var info="dateTime="+$("#dateTime").val();
+info+="&pumpId="+$("#pumpId").val();
+info+="&batteryVoltage="+$("#batteryVoltage").val();
+info+="&cycles="+$("#cycles").val();
+info+="&temperature="+$("#temperature").val();
+
+console.log(info);
+
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    $("#response").html(xmlhttp.responseText);
+    }
+  }
+xmlhttp.open("GET","pumpReport.php?"+info,true);
+xmlhttp.send();
+}	
+</script>
+</body>
+</html>
